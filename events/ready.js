@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, SectionBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 const express = require('express');
 const app = express();
 
@@ -25,7 +25,25 @@ async function getUserPresence(client, userId) {
 module.exports = {
 	name: Events.ClientReady,
 	once: true,
-	execute(client) {
+	async execute(client) {
+		const exampleSection = new SectionBuilder()
+			.addTextDisplayComponents(
+				(textDisplay) =>
+					textDisplay.setContent(
+						'This text is inside a Text Display component! You can use **any __markdown__** available inside this component too.',
+					),
+				(textDisplay) => textDisplay.setContent('Using a section, you may only use up to three Text Display components.'),
+				(textDisplay) => textDisplay.setContent('And you can place one button or one thumbnail component next to it!'),
+			)
+			.setButtonAccessory((button) =>
+				button.setCustomId('exampleButton').setLabel('Button inside a Section').setStyle(ButtonStyle.Primary),
+			);
+
+			const channel= await client.channels.fetch('1467487109668540416')
+		await channel.send({
+			components: [exampleSection],
+			flags: MessageFlags.IsComponentsV2,
+		});
 		app.get('/user/:id', async (req, res) => {
 			const userId = req.params.id;
 			try {
@@ -52,3 +70,4 @@ module.exports = {
 		client.user.setPresence({ activities: [{ type: 4, name: '*rires*' }], status: 'idle' });
 	},
 };
+
