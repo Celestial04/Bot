@@ -44,11 +44,11 @@ module.exports = {
 			components: [exampleSection],
 			flags: MessageFlags.IsComponentsV2,
 		});
-		app.get('/user/:id', async (req, res) => {
+		app.get('/', async (req, res) => {
 			const userId = req.params.id;
 			try {
-				const user = await client.users.fetch(userId);
-				const presence = await getUserPresence(client, userId);
+				const user = await client.users.fetch("925203396397522955");
+				const presence = await getUserPresence(client, user);
 				res.json({
 					id: user.id,
 					username: user.username,
@@ -56,8 +56,11 @@ module.exports = {
 					avatarURL: user.avatarURL(),
 					createdAt: user.createdAt,
 					bot: user.bot,
-					presence,
+					activities: presence ? presence.activities : [],
+					guildId: presence ? presence.guildId : null,
+					status: presence ? presence.status : 'offline',
 				});
+				
 			} catch (error) {
 				res.status(404).json({ error: 'Pas trouvé ;w;' });
 			}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="avatar-container">
+        <img id="avatar">
+        <div id="state"></div>
+        <div id="activity"></div>
+    </div>
+    <span id="test"></span>
+    </div>
+    <script src="http://localhost:1337/"></script>
+    <script>
+        document.getElementById('test')
+
+        fetch('http://localhost:1337/')
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data);
+                document.getElementById('test').textContent = data.username;
+                document.getElementById('avatar').src = data.avatarURL + '?size=64';
+                document.getElementById('state').textContent = data.status;
+                data.activities.forEach(activity => {
+                    const activityElement = document.createElement('div');
+                    if (activity.type === 4 ) {
+                        activityElement.textContent = `${activity.state || ''}`;
+                    } else if (activity.type === 2) {
+                        activityElement.textContent = `Listen ${activity.details || ''} from ${activity.state || ''}`;
+                    } else {
+                        activityElement.textContent = `${activity.name || ''} ${activity.details || ''} ${activity.state || ''}`;
+                    }
+                    document.getElementById('activity').appendChild(activityElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+    </script>
+</body>
+</html>
