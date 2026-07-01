@@ -12,7 +12,7 @@ module.exports = {
             const targetChannel = await oldMsg.client.channels.fetch(process.env.MSG_UPDT);
             const embed = new EmbedBuilder()
                 .setColor("Orange")
-                .setTitle('🔁💬 Message mis à jour')
+                .setTitle('🔁💬 à mis à jour un message')
                 .setAuthor({ name: `${oldMsg.author.displayName} (${oldMsg.author.username})`, iconURL: oldMsg.author.avatarURL(), url: 'https://discord.com/users/' + oldMsg.author.id })
                 .setDescription('**Original**\n' + oldMsg.toString() + '\n**Édité**\n' + newMsg.toString())
 

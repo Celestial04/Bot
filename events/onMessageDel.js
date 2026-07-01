@@ -12,7 +12,7 @@ module.exports = {
             const targetChannel = await msg.client.channels.fetch(process.env.MSG_RM);
             const embed = new EmbedBuilder()
                 .setColor("Red")
-                .setTitle('➖💬 Message supprimé')
+                .setTitle('➖💬 à supprimé.e un message')
                 .setAuthor({ name: `${msg.author.displayName} (${msg.author.username})`, iconURL: msg.author.avatarURL(), url: 'https://discord.com/users/' + msg.author.id })
                 .setDescription(msg.content)
                 .addFields(

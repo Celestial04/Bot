@@ -10,7 +10,7 @@ module.exports = {
         console.log(thread.client)
         const embed = new EmbedBuilder()
             .setColor("Green")
-            .setTitle('➕🧵 Thread créé')
+            .setTitle('➕🧵 à créé.e un thread')
             //.setAuthor({ name: `${thread.author.displayName} (${thread.author.username})`, iconURL: thread.author.avatarURL(), url: `https://discord.com/users/${thread.author.id}` })
             .setDescription(`${thread.name} ([${thread.id}](${thread.url})) à été créé <t:${Math.floor(thread.createdTimestamp / 1000)}:R> par <@${thread.ownerId}> (${owner.user.username}), il ${thread.parent? "n'as pas de parent" : `as un parent, il se nomme <#${thread.parentId}> (${thread.parent.name}, [${thread.parentId}](${thread.parent.url}))`} et son type est ${thread.type}.`)
             .addFields(

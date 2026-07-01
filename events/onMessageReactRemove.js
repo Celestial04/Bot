@@ -12,7 +12,7 @@ module.exports = {
             const targetChannel = await msgReact.client.channels.fetch(process.env.REACT_RM);
             const embed = new EmbedBuilder()
                 .setColor("Red")
-                .setTitle('➖🥺 Réaction retiré')
+                .setTitle('➖🥺 à retiré.e une réaction')
                 .setAuthor({ name: `${User.displayName} (${User.username})`, iconURL: User.avatarURL(), url: 'https://discord.com/users/' + User.id })
                 .setDescription(msgReact.emoji.name + ' à été retiré par <@' + User.id + '> (`' + User.username + '`) sur le message de <@' + msgReact.message.author.id + '> (`' + msgReact.message.author.username + '`) disant:\n' + msgReact.message.content)
                 .addFields(

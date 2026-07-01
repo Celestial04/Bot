@@ -1,6 +1,71 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 const fs = require('node:fs');
 const path = require('node:path');
+const express = require('express');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+app.get('/user', async (req, res) => {
+	const userId = req.query.id;
+	
+	if (!userId) {
+		return res.status(400).json({ error: 'Missing user id in query parameter ?id=' });
+	}
+
+	try {
+		const user = await client.users.fetch(userId, { force: true });
+		const response = {
+			id: user.id,
+			username: user.username,
+			discriminator: user.discriminator,
+			avatar: user.avatar,
+			bot: user.bot,
+			system: user.system,
+			createdAt: user.createdAt,
+			accentColor: user.accentColor,
+			banner: user.banner,
+			bannerColor: user.bannerColor,
+			publicFlags: user.publicFlags,
+			flags: user.flags,
+			avatarURL: user.displayAvatarURL({ dynamic: true, size: 1024 }),
+		};
+
+		// Fetch status and activity if guildId is provided
+		if (process.env.GUILD_ID) {
+			try {
+				const guild = await client.guilds.fetch(process.env.GUILD_ID);
+				const member = await guild.members.fetch(userId);
+				const presence = member.presence;
+
+				if (presence) {
+					response.status = presence.status; // online, idle, dnd, offline
+					response.activities = presence.activities.map(activity => ({
+						name: activity.name,
+						type: activity.type,
+						state: activity.state,
+						url: activity.url,
+					}));
+				} else {
+					response.status = 'offline';
+					response.activities = [];
+				}
+			} catch (err) {
+				response.status = 'unknown';
+				response.activities = [];
+				response.presenceError = err.message;
+			}
+		}
+
+		return res.json(response);
+	} catch (error) {
+		return res.status(500).json({ error: error.message });
+	}
+});
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+});
+
+
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,

@@ -13,7 +13,7 @@ module.exports = {
             const targetChannel = await msg.client.channels.fetch(process.env.MSG_ADD);
             const embed = new EmbedBuilder()
                 .setColor("Green")
-                .setTitle('➕💬 Message envoyé')
+                .setTitle('➕💬 à envoyé.e un message')
                 .setAuthor({ name: `${msg.author.displayName} (${msg.author.username})`, iconURL: msg.author.avatarURL(), url: `https://discord.com/users/${msg.author.id}` })
                 .setDescription(msg.content)
                 .addFields(
