@@ -77,7 +77,6 @@ const client = new Client({
 	],
 });
 const express = require('express');
-const app = express();
 
 // Commands collections
 client.commands = new Collection();
